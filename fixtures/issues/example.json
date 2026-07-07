@@ -1,0 +1,5 @@
+{
+  "repo": "OWNER/TEST-REPO",
+  "issue_id": 1,
+  "note": "Replace OWNER/TEST-REPO and issue_id with your throwaway test repo and a real issue number. Intake reads the live issue via read-only GitHub MCP, so the issue must exist and the PAT must be scoped to this repo."
+}

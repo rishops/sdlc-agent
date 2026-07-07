@@ -1,0 +1,24 @@
+{
+  "eval_set_id": "p1_read_and_plan",
+  "name": "P1 Read & Plan",
+  "description": "Drives the issue-to-PR pipeline on a seeded issue and judges the produced change plan for groundedness, actionability, and safety. Requires Vertex creds, GITHUB_TOKEN, and a reachable test issue (replace session state below).",
+  "eval_cases": [
+    {
+      "eval_id": "plan_for_seeded_issue",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [{ "text": "Trigger: process the issue in session state." }]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {
+          "issue_request": { "repo": "OWNER/TEST-REPO", "issue_id": 1 }
+        }
+      }
+    }
+  ]
+}
