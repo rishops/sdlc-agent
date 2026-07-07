@@ -36,23 +36,7 @@ delegate to a capable junior, and a reviewable artifact is waiting when you get 
 
 ## Architecture at a glance
 
-```
-   (1) issue labeled "agent:build"
-GitHub ─────────────────────────────►  Webhook ingress (app/webhook.py, FastAPI)
-  ▲  ▲                                    • verify HMAC signature
-  │  │                                    • filter: issues / labeled / trigger-label
-  │  │                                    • dedupe on delivery-id
-  │  │                                    • return 202 FAST (no model on the hot path)
-  │  │                                    • run pipeline in a background task ↓
-  │  │     ┌────────── App (plugins: Logging · BoundedGeneration · ToolErrorRecovery) ──────────┐
-  │  │     │  IssueToPrOrchestrator  (custom BaseAgent — sequences + routes on state)            │
-  │  │     │  Intake → RepoContext → [Planner ⇄ PlanReviewer] → [Coder ⇄ Tester] → Reviewer → Delivery
-  │  │     └──────────────┬─────────────────────────────────────────────────────────┬───────────┘
-  │  │                    │ host sandbox (git clone/read/write/run/commit/push)       │
-  │  └────────────────────┘ GitHub MCP (read everywhere; write = create_pull_request) │
-  └──────────────────────────  status comments + labels + a DRAFT PR ◄───────────────┘
-                                human reviews & merges (no auto-merge, ever)
-```
+![sdlc-agent-architecture](./sdlc-agent-architecture.png)
 
 The pipeline is a **deterministic backbone** that routes on typed state; the LLM's
 judgment lives *inside* each stage, not on the edges:
